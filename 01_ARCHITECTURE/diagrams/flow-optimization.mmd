@@ -1,0 +1,7 @@
+flowchart LR
+    A[Flux entrant] --> B[Contrôle synchrone minimal]
+    B --> C[Décision / validation]
+    C --> D[Publication événement]
+    D --> E[Traitements asynchrones]
+    E --> F[Batchs optimisés]
+    F --> G[Reporting / archive]

@@ -1,0 +1,20 @@
+flowchart TB
+    A[Canaux / Banques / Chambres de compensation] --> B[API / MFT / Connecteurs]
+    B --> C[Services paiements synchrones]
+    C --> D[Contrôles fraude / conformité]
+    C --> E[Bus événementiel / Kafka]
+    D --> E
+    E --> F[Workers asynchrones]
+    F --> G[Batchs optimisés]
+    C --> H[Base transactionnelle]
+    D --> H
+    G --> H
+    C --> I[Observabilité]
+    D --> I
+    F --> I
+    G --> I
+    I --> J[Dashboards SRE / GreenOps / KPI]
+    K[CI/CD DevSecOps] --> C
+    K --> D
+    K --> F
+    K --> G
