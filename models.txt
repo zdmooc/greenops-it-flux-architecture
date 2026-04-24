@@ -1,0 +1,1433 @@
+1. Modèles de mesure de base
+1. Intensité carbone applicative
+
+Le modèle central.
+
+Forme générale :
+
+Carbone total = Énergie consommée × Intensité carbone de l’électricité + part matériel
+
+Puis normalisation :
+
+gCO2e / transaction
+gCO2e / batch
+gCO2e / API call
+gCO2e / 1000 transactions
+
+Utilité :
+
+comparer les applications entre elles
+suivre la trajectoire -6% puis -20%
+prioriser les optimisations
+2. Modèle SCI
+
+Très important pour ton sujet.
+
+Variables :
+
+E = énergie
+I = intensité carbone
+M = empreinte matérielle
+R = unité fonctionnelle
+
+Utilité :
+
+construire une baseline robuste
+comparer un SCT, SCT Inst, SDD, fraude, batch
+démontrer les gains après optimisation
+3. Modèle de consommation énergétique
+
+Exemples :
+
+énergie CPU
+énergie RAM
+énergie stockage
+énergie réseau
+énergie par environnement
+
+Utilité :
+
+savoir où se trouve la consommation réelle
+distinguer charge utile vs gaspillage
+2. Modèles de performance et capacité
+4. Théorie des files d’attente
+
+Très utile pour SCT Inst, API, microservices, batchs.
+
+Exemples :
+
+M/M/1
+M/M/c
+Little’s Law
+
+Permet d’estimer :
+
+temps d’attente
+temps de réponse
+saturation
+nombre de serveurs nécessaires
+
+Utilité :
+
+réduire la latence
+éviter le surdimensionnement
+optimiser le nombre d’instances/pods/VM
+5. Loi de Little
+
+Très simple et très puissante.
+
+Permet de relier :
+
+nombre moyen d’éléments dans le système
+débit
+temps moyen passé dans le système
+
+Utilité :
+
+comprendre où le flux s’accumule
+relier backlog, throughput, délai
+identifier les goulets d’étranglement
+6. Modèles de charge / capacité
+
+Exemples :
+
+charge moyenne
+charge de pointe
+percentiles P95/P99
+marge de sécurité
+
+Utilité :
+
+rightsizing
+capacity planning
+éviter le surprovisionnement permanent
+7. Modèles de mise à l’échelle
+
+Exemples :
+
+seuils CPU/mémoire
+scaling basé sur QPS
+scaling basé sur backlog Kafka
+scaling basé sur latence
+
+Utilité :
+
+dimensionner correctement
+réduire les ressources idle
+rendre les environnements plus sobres
+3. Modèles d’optimisation opérationnelle
+8. Modèle de right-sizing
+
+Comparer pour chaque composant :
+
+ressources allouées
+ressources réellement consommées
+marge utile
+gaspillage
+
+Utilité :
+
+identifier les VMs trop grosses
+identifier les pods surdimensionnés
+quantifier le gain potentiel
+9. Modèle d’optimisation multi-objectif
+
+Très important dans ton cas.
+
+Car tu n’optimises pas un seul critère, mais plusieurs :
+
+carbone
+coût
+latence
+disponibilité
+sécurité
+qualité
+
+Méthodes possibles :
+
+pondération
+Pareto
+score composite
+
+Utilité :
+
+arbitrer entre performance et sobriété
+éviter une optimisation “carbone” qui dégrade le service
+10. Modèle coût / performance / carbone
+
+Pour chaque optimisation, calculer :
+
+gain carbone
+gain coût
+impact performance
+risque
+effort
+délai de mise en œuvre
+
+Utilité :
+
+classer les quick wins
+construire une roadmap réaliste
+11. Modèle de priorisation
+
+Très pratique.
+
+Score possible par action :
+
+Impact × Faisabilité × Rapidité ÷ Risque
+
+Ou matrice :
+
+quick win
+chantier structurant
+chantier risqué
+faible intérêt
+
+Utilité :
+
+préparer COPIL
+défendre le backlog d’optimisation
+4. Modèles liés aux flux et aux paiements
+12. Modèle de volumétrie transactionnelle
+
+Variables :
+
+transactions/jour
+pics horaires
+saisonnalité
+retries
+rejets
+retraitements
+
+Utilité :
+
+relier carbone à la volumétrie métier
+anticiper les périodes à forte charge
+13. Modèle STP / non-STP
+
+Mesurer :
+
+taux de traitement direct
+taux d’intervention manuelle
+taux de reprise
+taux de rejet
+
+Utilité :
+
+plus le STP augmente, plus le coût et le carbone baissent souvent
+bon KPI métier + technique
+14. Modèle de retries / timeouts
+
+Très important.
+
+Mesurer :
+
+nombre de retries
+délai moyen
+temps perdu
+consommation induite
+volume de logs généré
+
+Utilité :
+
+quantifier le gaspillage technique
+démontrer qu’une mauvaise résilience consomme plus
+15. Modèle synchrone vs asynchrone
+
+Comparer :
+
+coût de polling
+coût de callbacks
+coût d’événements Kafka
+charge sur DB/API
+
+Utilité :
+
+justifier l’EDA
+montrer le gain sur les échanges inter-applicatifs
+5. Modèles données / stockage / logs
+16. Modèle de croissance des données
+
+Variables :
+
+croissance journalière
+rétention
+part chaude / tiède / froide
+volume archivé
+
+Utilité :
+
+décider archivage/purge
+réduire stockage coûteux et énergivore
+17. Modèle de rétention des logs
+
+Mesurer :
+
+logs produits par transaction
+logs utiles
+logs redondants
+coût stockage/indexation
+impact CPU Elastic/Logstash
+
+Utilité :
+
+réduire la verbosité
+optimiser observabilité sans aveugler l’exploitation
+18. Modèle d’optimisation SQL
+
+Mesures :
+
+coût requête
+temps CPU
+I/O
+cardinalité
+fréquence d’exécution
+
+Utilité :
+
+gros levier sur Oracle
+réduction directe CPU, latence, énergie
+6. Modèles de fiabilité et résilience
+19. Modèles de disponibilité
+
+Exemples :
+
+SLA
+SLI
+SLO
+MTBF
+MTTR
+
+Utilité :
+
+ne pas casser la résilience en cherchant la sobriété
+relier DORA et GreenOps
+20. Modèle de risque opérationnel
+
+Pour chaque optimisation :
+
+probabilité d’incident
+impact
+détectabilité
+réversibilité
+
+Utilité :
+
+éviter une optimisation trop agressive
+sécuriser les changements prod
+21. Modèle de coût de non-qualité
+
+Mesurer :
+
+incidents
+reprises
+corrections urgentes
+surconsommation
+retards de livraison
+
+Utilité :
+
+montrer que SonarQube / Checkmarx / qualité logicielle ont aussi un effet Green IT
+7. Modèles CI/CD et qualité
+22. Modèle de couverture pipeline
+
+Mesurer :
+
+% dépôts avec pipeline
+% avec Sonar
+% avec Checkmarx
+% avec quality gate
+délai de correction
+
+Utilité :
+
+suivre l’industrialisation
+objectiver la maturité DevSecOps
+23. Modèle de dette technique
+
+Mesurer :
+
+dette critique
+dette majeure
+densité défauts
+maintainability
+hotspots
+
+Utilité :
+
+relier dette logicielle à inefficacité opérationnelle
+24. Modèle de corrélation qualité / performance
+
+Exemple :
+
+plus de code smells ou bugs critiques
+plus d’erreurs
+plus de retries
+plus de CPU consommé
+
+Utilité :
+
+démontrer l’intérêt business de l’industrialisation CI/CD
+8. Modèles d’optimisation avancés
+25. Régression statistique
+
+Pour expliquer quels facteurs influencent le plus :
+
+gCO2e
+latence
+coût
+incidents
+
+Variables explicatives possibles :
+
+CPU
+mémoire
+retries
+volume de logs
+volumétrie
+nombre d’appels DB
+
+Utilité :
+
+trouver les vrais drivers de consommation
+26. Analyse de sensibilité
+
+Question :
+si je réduis les logs de 20%, quel gain ?
+si je réduis les retries de 30%, quel gain ?
+si j’éteins 3 environnements non-prod, quel gain ?
+
+Utilité :
+
+tester les leviers avant mise en œuvre
+27. Simulation / scénarios
+
+Construire plusieurs scénarios :
+
+scénario prudent
+scénario réaliste
+scénario ambitieux
+
+Utilité :
+
+bâtir la roadmap 2026–2030
+présenter des fourchettes crédibles
+28. Optimisation linéaire ou sous contraintes
+
+Quand tu veux arbitrer sous contraintes :
+
+budget limité
+SLA à respecter
+capacité minimale
+dates imposées
+
+Utilité :
+
+choisir le meilleur portefeuille d’actions
+29. Pareto 80/20
+
+Très pratique.
+
+Identifier :
+
+les 20% de composants qui génèrent 80% du coût, du carbone ou des incidents
+
+Utilité :
+
+focaliser le plan d’action sur peu d’objets à fort effet
+9. Les modèles les plus utiles pour TON sujet en priorité
+
+Si tu veux aller à l’essentiel, commence par ceux-là :
+
+Niveau 1 — indispensables
+Intensité carbone applicative
+SCI
+Modèle de charge / capacité
+Théorie des files d’attente
+Right-sizing
+Modèle retries / timeouts
+Modèle volumétrie transactionnelle
+Modèle de rétention des logs
+Modèle de priorisation impact / effort / risque
+Modèle KPI coût-carbone-performance
+Niveau 2 — très utiles ensuite
+Régression statistique
+Analyse de sensibilité
+Simulation de scénarios
+Pareto
+Optimisation multi-objectif
+10. Comment les classer dans ton rapport
+
+Tu peux créer un chapitre :
+
+Modèles mathématiques et analytiques mobilisables pour l’optimisation GreenOps
+
+Avec 4 sous-parties :
+
+A. Modèles de mesure
+SCI
+intensité carbone
+énergie
+B. Modèles de performance
+files d’attente
+Little
+capacity planning
+C. Modèles d’optimisation
+right-sizing
+priorisation
+multi-objectif
+Pareto
+D. Modèles prédictifs et de simulation
+régression
+sensibilité
+scénarios
+11. Ce que je te recommande concrètement
+
+Pour ton sujet, le noyau dur à développer en premier est :
+
+SCI
+théorie des files d’attente
+modèle de right-sizing
+modèle retries/timeouts
+modèle de priorisation multi-critères
+analyse de sensibilité
+Pareto
+
+C’est ce groupe qui donnera le plus vite un cadre sérieux, crédible et exploitable.
+
+Je peux maintenant te faire la liste suivante encore plus utile :
+pour chaque modèle, les variables d’entrée, les formules simples, et le lien direct avec les objectifs -6% / -20%.
+
+
+1. Pourquoi la RO est clé dans ton cas
+
+Ton problème réel est de type :
+
+👉 optimisation multi-contrainte
+
+Tu veux minimiser :
+
+CO₂
+coût infra
+gaspillage
+
+Sous contraintes :
+
+SLA (latence SCT Inst)
+disponibilité (DORA)
+capacité
+délais de livraison
+
+➡️ C’est exactement un problème de recherche opérationnelle
+
+2. Les modèles de RO les plus utiles pour ton sujet
+1. Programmation linéaire (PL)
+Principe
+
+Optimiser une fonction (ex : carbone ou coût) sous contraintes.
+
+Exemple concret
+
+Minimiser :
+
+consommation totale des ressources
+
+Sous contraintes :
+
+CPU minimum requis
+latence max
+capacité DB
+SLA paiement
+Utilité
+right-sizing global
+optimisation des environnements
+allocation des ressources
+2. Programmation linéaire en nombres entiers (PLNE)
+Principe
+
+Même chose, mais avec décisions discrètes :
+
+ON/OFF (environnement)
+nombre de pods
+nombre de serveurs
+Exemple
+combien de pods lancer ?
+quels environnements éteindre ?
+combien de workers Kafka ?
+Utilité
+extinction non-prod
+dimensionnement clusters
+décisions d’infrastructure
+3. Optimisation multi-objectifs
+Principe
+
+Optimiser plusieurs objectifs en même temps :
+
+CO₂ ↓
+coût ↓
+latence ↓
+disponibilité ↑
+Méthodes
+pondération
+Pareto optimal
+Utilité
+arbitrage architecture
+décisions COPIL
+roadmap réaliste
+4. Problèmes de flot (network flow)
+Principe
+
+Optimiser le passage de flux dans un réseau.
+
+Exemple dans ton SI
+flux de paiements
+flux Kafka
+flux MFT
+flux API
+Utilité
+réduire congestion
+optimiser throughput
+réduire latence → moins de CPU → moins de CO₂
+5. Théorie des files d’attente (déjà évoquée mais RO)
+Utilité
+dimensionner correctement
+éviter surprovisionnement
+réduire latence et retries
+6. Problèmes d’ordonnancement (scheduling)
+Principe
+
+Planifier des tâches dans le temps.
+
+Exemple
+batchs
+traitements nocturnes
+jobs Control-M
+Utilité majeure
+
+👉 carbon-aware scheduling
+
+exécuter batchs quand :
+électricité moins carbonée
+charge plus faible
+
+➡️ levier direct GreenOps
+
+7. Problème du sac à dos (Knapsack)
+Principe
+
+Choisir les meilleures actions avec budget limité.
+
+Exemple
+
+Tu as :
+
+20 optimisations possibles
+budget limité (temps, équipes)
+
+Tu veux maximiser :
+
+gain carbone
+Utilité
+priorisation roadmap
+choix des quick wins
+8. Modèles de localisation / allocation
+Principe
+
+Où placer les ressources ?
+
+Exemple
+on-prem vs cloud
+datacenter A vs B
+cluster 1 vs cluster 2
+Utilité
+réduire latence réseau
+optimiser consommation énergétique
+stratégie hybride cloud
+9. Optimisation sous incertitude
+Principe
+
+Prendre des décisions malgré variabilité :
+
+charge
+pics
+incidents
+Utilité
+dimensionnement robuste
+éviter surdimensionnement permanent
+10. Simulation (Monte Carlo)
+Principe
+
+Tester plusieurs scénarios aléatoires.
+
+Exemple
+pics de paiement
+incidents
+retries
+Utilité
+valider stratégie avant prod
+estimer gains réels
+3. Mapping direct RO → ton sujet GreenOps
+Problème réel	Modèle RO associé
+réduire CO₂ global	programmation linéaire
+éteindre environnements	PLNE
+arbitrer coût / carbone / SLA	multi-objectifs
+optimiser flux paiements	network flow
+réduire latence	files d’attente
+planifier batchs	scheduling
+choisir quick wins	knapsack
+placer workloads	allocation
+gérer pics	optimisation sous incertitude
+valider stratégie	simulation
+4. Les 5 modèles RO à utiliser en priorité
+
+Pour ton rapport / mission :
+
+Priorité maximale
+Programmation linéaire / PLNE
+👉 optimisation ressources
+Scheduling
+👉 batchs + GreenOps
+Multi-objectifs
+👉 arbitrage métier
+Files d’attente
+👉 performance SCT Inst
+Knapsack
+👉 roadmap et quick wins
+5. Exemple concret (très important pour toi)
+Cas réel
+
+Tu veux réduire -6% en 2026.
+
+Tu as 10 actions :
+
+éteindre env
+réduire logs
+optimiser SQL
+réduire retries
+etc.
+
+👉 Tu ne peux pas tout faire.
+
+Modèle RO
+
+➡️ Knapsack
+
+Objectif :
+
+maximiser gain CO₂
+
+Contraintes :
+
+budget temps
+ressources équipes
+risque acceptable
+
+👉 Résultat :
+
+top 5 actions optimales
+6. Ce que ça t’apporte en entretien
+
+Si tu dis ça :
+
+👉 “J’utilise des modèles de recherche opérationnelle pour optimiser le SI sous contraintes (carbone, SLA, coûts)”
+
+Tu passes immédiatement :
+
+➡️ de consultant technique
+➡️ à architecte de transformation décisionnelle
+
+7. Conclusion
+
+Oui, la recherche opérationnelle est :
+
+👉 indispensable dès que tu veux passer :
+
+de l’analyse
+➡️ à l’optimisation réelle
+8. Suite logique
+
+Prochaine étape utile :
+
+👉 te montrer pour 3 modèles clés :
+
+formulation simple
+variables
+exemple concret IT Flux
+
+(PLNE + Scheduling + Knapsack)
+
+C’est ça qui va te faire passer niveau expert.
+
+
+1. PLNE — Optimisation des ressources / right-sizing / extinction
+🎯 Objectif
+
+Minimiser le carbone + coût infra
+
+🔢 Variables
+x
+i
+	​
+
+∈{0,1}
+→ 1 si environnement actif, 0 sinon
+y
+j
+	​
+
+∈N
+→ nombre de pods / VM / instances
+⚙️ Fonction objectif
+
+min∑
+i
+	​
+
+C
+i
+	​
+
+x
+i
+	​
+
++∑
+j
+	​
+
+R
+j
+	​
+
+y
+j
+	​
+
+
+C
+i
+	​
+
+ = coût/carbone environnement
+R
+j
+	​
+
+ = coût/carbone ressource
+📏 Contraintes
+1. Capacité minimale
+
+∑
+j
+	​
+
+Cap
+j
+	​
+
+y
+j
+	​
+
+≥Demand
+
+2. SLA / latence
+
+Latency(y
+j
+	​
+
+)≤SLA
+max
+	​
+
+
+3. Disponibilité (DORA)
+
+∑
+j
+	​
+
+y
+j
+	​
+
+≥Redundancy
+min
+	​
+
+
+🧠 Interprétation concrète
+
+Ce modèle répond à :
+
+combien de pods lancer ?
+quels environnements éteindre ?
+combien de serveurs garder ?
+
+👉 Application directe :
+
+extinction non-prod
+right-sizing OpenShift / VM
+optimisation Oracle RAC
+2. Scheduling — Optimisation des batchs (GreenOps)
+🎯 Objectif
+
+Minimiser le carbone en jouant sur le temps
+
+🔢 Variables
+t
+k
+	​
+
+ = heure d’exécution du job k
+E
+k
+	​
+
+ = énergie consommée
+I(t
+k
+	​
+
+) = intensité carbone à l’instant t
+⚙️ Fonction objectif
+
+min∑
+k
+	​
+
+E
+k
+	​
+
+⋅I(t
+k
+	​
+
+)
+
+📏 Contraintes
+1. Fenêtre métier
+
+t
+k
+	​
+
+∈[start
+k
+	​
+
+,end
+k
+	​
+
+]
+
+2. Ordre des traitements
+
+t
+k
+	​
+
++duration
+k
+	​
+
+≤t
+k+1
+	​
+
+
+3. Capacité système
+
+∑
+k
+	​
+
+Load
+k
+	​
+
+(t)≤Capacity
+
+🧠 Interprétation concrète
+
+👉 Tu choisis QUAND exécuter les batchs pour :
+
+éviter pics CPU
+profiter d’électricité moins carbonée
+lisser la charge
+💡 Exemple réel
+batch à 18h → forte intensité carbone
+batch déplacé à 2h → moins carboné
+
+➡️ gain immédiat sans changer le code
+
+3. Knapsack — Priorisation des optimisations
+🎯 Objectif
+
+Choisir les meilleures actions sous contrainte
+
+🔢 Variables
+z
+m
+	​
+
+∈{0,1}
+→ action m sélectionnée ou non
+⚙️ Fonction objectif
+
+max∑
+m
+	​
+
+Gain
+m
+	​
+
+⋅z
+m
+	​
+
+
+📏 Contraintes
+1. Budget (temps / équipe)
+
+∑
+m
+	​
+
+Cost
+m
+	​
+
+⋅z
+m
+	​
+
+≤Budget
+
+2. Risque acceptable
+
+∑
+m
+	​
+
+Risk
+m
+	​
+
+⋅z
+m
+	​
+
+≤Risk
+max
+	​
+
+
+🧠 Interprétation concrète
+
+Tu choisis :
+
+quelles optimisations lancer
+dans quel ordre
+avec quel ROI
+💡 Exemple IT Flux
+
+Actions possibles :
+
+Action	Gain CO₂	Coût	Risque
+éteindre env	élevé	faible	faible
+réduire logs	moyen	faible	faible
+refacto SQL	élevé	élevé	moyen
+EDA Kafka	très élevé	très élevé	élevé
+
+👉 Le modèle te donne :
+
+➡️ le meilleur mix optimal
+
+4. Synthèse simple
+Modèle	Sert à	Impact direct
+PLNE	dimensionnement	infra / pods / VM
+Scheduling	planification	batch / GreenOps
+Knapsack	priorisation	roadmap
+5. Ce que tu viens de construire
+
+Avec ces 3 modèles, tu peux :
+
+optimiser l’infrastructure
+réduire le carbone
+construire une roadmap crédible
+justifier tes décisions en COPIL
+
+👉 C’est exactement ce qu’on attend d’un :
+
+Architecte de transformation / Expert GreenOps
+
+6. Étape suivante (recommandée)
+
+Pour monter encore d’un niveau, il faut ajouter :
+
+modèle files d’attente (latence SCT Inst)
+modèle retries / gaspillage
+modèle multi-objectifs (arbitrage global)
+
+Je peux te les formaliser de la même façon, directement exploitables dans ton rapport.
+
+4. Modèle de files d’attente — latence, saturation, dimensionnement
+
+C’est un modèle essentiel pour :
+
+SCT Inst
+API temps réel
+microservices
+workers Kafka
+accès DB
+🎯 Objectif
+
+Comprendre et limiter :
+
+le temps d’attente
+le temps de réponse
+la saturation
+les files qui grossissent
+Variables classiques
+λ : taux d’arrivée des requêtes
+μ : taux de service
+c : nombre de serveurs / pods / workers
+ρ : taux d’occupation
+
+Dans le cas simple M/M/1 :
+
+ρ=
+μ
+λ
+	​
+
+
+Condition de stabilité :
+
+λ<μ
+
+Temps moyen dans le système :
+
+W=
+μ−λ
+1
+	​
+
+
+Temps moyen d’attente en file :
+
+W
+q
+	​
+
+=
+μ(μ−λ)
+λ
+	​
+
+
+Loi de Little :
+
+L=λW
+
+Interprétation concrète
+
+Si le flux entrant se rapproche trop de la capacité de traitement :
+
+la latence explose
+les timeouts augmentent
+les retries augmentent
+donc le carbone augmente aussi
+Application IT Flux
+
+Exemples :
+
+nombre minimal de pods pour tenir une latence SCT Inst
+nombre de workers Kafka pour absorber un pic
+capacité d’un service VoP
+file de batchs ou de traitements asynchrones
+Décision concrète
+
+Tu peux t’en servir pour répondre à :
+
+faut-il 2, 3 ou 4 pods ?
+à partir de quel débit le service devient dangereux ?
+quel niveau de marge garder sans surprovisionner ?
+5. Modèle retries / timeouts / gaspillage technique
+
+Celui-ci est très fort pour ton sujet, car il relie :
+
+résilience
+performance
+carbone
+qualité applicative
+🎯 Objectif
+
+Quantifier le surcoût induit par les erreurs techniques :
+
+retry
+timeout
+appel doublé
+traitement relancé
+logs supplémentaires
+Variables
+N : nombre initial de requêtes
+r : taux de retry
+e : énergie par requête
+l : volume de logs par requête
+c : carbone par requête
+
+Nombre total de traitements :
+
+N
+total
+	​
+
+=N(1+r)
+
+Énergie totale :
+
+E
+total
+	​
+
+=e⋅N(1+r)
+
+Carbone total :
+
+CO2
+total
+	​
+
+=c⋅N(1+r)
+
+Logs totaux :
+
+Logs
+total
+	​
+
+=l⋅N(1+r)
+
+Extension plus réaliste
+
+Si un retry consomme différemment d’une requête normale :
+
+e
+0
+	​
+
+ : énergie d’une requête nominale
+e
+r
+	​
+
+ : énergie d’un retry
+
+Alors :
+
+E
+total
+	​
+
+=Ne
+0
+	​
+
++Nre
+r
+	​
+
+
+Interprétation concrète
+
+Si tu réduis le taux de retry :
+
+tu réduis CPU
+tu réduis latence
+tu réduis logs
+tu réduis carbone
+tu réduis coût
+
+Donc le retry devient un KPI GreenOps.
+
+Application IT Flux
+
+Très utile sur :
+
+SCT Inst
+appels API inter-applicatifs
+échanges avec moteur de fraude
+batchs qui repartent
+traitements avec timeout DB
+Décision concrète
+
+Tu peux estimer :
+
+gain carbone si retries passent de 8% à 3%
+gain CPU si timeout est mieux réglé
+gain stockage si erreurs techniques baissent
+6. Modèle multi-objectifs — arbitrer sans casser le service
+
+C’est le modèle le plus “architecte”.
+
+Parce qu’en vrai tu ne veux pas juste minimiser le CO₂.
+Tu veux un compromis entre :
+
+carbone
+coût
+latence
+disponibilité
+risque
+effort
+🎯 Objectif
+
+Trouver la meilleure décision possible sous plusieurs critères concurrents.
+
+Formulation simple par pondération
+
+Soit une décision x.
+On définit :
+
+C(x) : carbone
+K(x) : coût
+L(x) : latence
+R(x) : risque
+
+On peut minimiser :
+
+minαC(x)+βK(x)+γL(x)+δR(x)
+
+avec :
+
+α,β,γ,δ = poids métier / architecture
+Variante avec contraintes
+
+Par exemple :
+
+Minimiser le carbone, mais sous contraintes :
+
+minC(x)
+
+Sous :
+
+L(x)≤SLA
+max
+	​
+
+
+K(x)≤Budget
+
+R(x)≤Risk
+max
+	​
+
+
+Interprétation concrète
+
+Tu évites les erreurs classiques :
+
+optimisation carbone qui dégrade la prod
+réduction de ressources qui casse le SLA
+extinction trop agressive
+refonte trop risquée en 2026
+Application IT Flux
+
+Exemples d’arbitrage :
+
+garder plus de pods pour tenir SCT Inst, mais réduire ailleurs
+déplacer certains batchs sans toucher aux traitements critiques
+réduire les logs sur les traitements non sensibles
+prioriser les quick wins peu risqués avant les refontes lourdes
+Lecture Pareto
+
+Autre manière de voir :
+
+une solution est bonne si on ne peut pas améliorer un critère sans dégrader un autre
+
+Très utile en comité d’architecture :
+
+comparer plusieurs scénarios
+justifier pourquoi le “minimum CO₂ absolu” n’est pas le bon choix
+7. Comment ces 3 modèles se complètent
+Files d’attente
+
+répond à :
+combien faut-il de capacité pour éviter la saturation ?
+
+Retries / gaspillage
+
+répond à :
+combien consomment les dysfonctionnements ?
+
+Multi-objectifs
+
+répond à :
+quel compromis choisir à l’échelle du SI ?
+
+8. Noyau mathématique recommandé pour ton sujet
+
+Si tu veux un socle vraiment sérieux, tu peux structurer ainsi :
+
+A. Mesurer
+SCI
+intensité carbone
+énergie par transaction
+B. Comprendre
+files d’attente
+retries / timeouts
+volumétrie
+logs
+C. Optimiser
+PLNE
+scheduling
+knapsack
+multi-objectifs
+9. Les modèles les plus stratégiques pour atteindre -6% puis -20%
+
+Pour le court terme 2026 :
+
+knapsack
+retries
+right-sizing
+scheduling
+logs
+
+Pour le moyen terme 2030 :
+
+multi-objectifs
+files d’attente
+optimisation de flux
+rationalisation structurelle
+placement de charge / architecture cible
+10. Ce que tu peux écrire comme positionnement dans ton travail
+
+Tu peux dire quelque chose comme :
+
+L’atteinte des objectifs de décarbonation applicative ne relève pas uniquement d’une logique de mesure, mais d’une logique d’optimisation sous contraintes. À ce titre, plusieurs familles de modèles sont mobilisables : files d’attente pour la maîtrise de la latence et du dimensionnement, modèles de gaspillage technique pour quantifier l’impact des retries et timeouts, et optimisation multi-objectifs pour arbitrer entre carbone, coût, performance et risque.
+
+11. Étape suivante la plus utile
+
+La suite logique est de te faire un référentiel complet des modèles avec, pour chacun :
+
+rôle
+formule
+variables d’entrée
+cas d’usage IT Flux
+niveau de priorité
+difficulté de mise en œuvre
+
+Je peux te le structurer en tableau complet prêt à intégrer dans ton rapp
+
+
+git init
+git add .
+git commit -m "HDL"
+git branch -M main
+git remote add origin https://github.com/zdmooc/greenops-it-flux-architecture.git
+git push -u origin main
